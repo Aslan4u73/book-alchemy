@@ -50,6 +50,7 @@ def delete_book(book_id):
     """Delete book by ID."""
     book_to_delete = data_models.Book.query.get_or_404(book_id)
     data_models.db.session.delete(book_to_delete)
+    return "Book successfully deleted!"
 
 
 basedir = os.path.abspath(os.path.dirname(__file__))
