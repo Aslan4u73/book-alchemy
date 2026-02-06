@@ -10,7 +10,7 @@ app = flask.Flask(__name__)
 
 @app.route('/')
 def home():
-    return flask.render_template('home.html')
+    return flask.render_template('home.html', books=data_models.Book.query.all())
 
 
 @app.route('/add_author', methods=['GET', 'POST'])
@@ -32,12 +32,13 @@ def add_book():
     if flask.request.method == 'POST':
         new_book_object = data_models.Book(isbn=flask.request.form['isbn'],
                                            title=flask.request.form['title'],
-                                           publication_year=flask.request.form['publication_year'])
+                                           publication_year=flask.request.form['publication_year'],
+                                           author_id=int(flask.request.form['author']))
         data_models.db.session.add(new_book_object)
         data_models.db.session.commit()
         return f"Book {flask.request.form['title']} successfully added!"
     else:
-        return flask.render_template('add_book.html')
+        return flask.render_template('add_book.html', authors=data_models.Author.query.all())
 
 
 
@@ -45,4 +46,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(basedir, 'data/library.sqlite')}"
 
 data_models.db.init_app(app)
-app.run(debug=True, host='0.0.0.0', port=8080)
+
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0', port=8080)
+
