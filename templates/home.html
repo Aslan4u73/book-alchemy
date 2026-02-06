@@ -150,7 +150,14 @@
           <a href="/">Library</a>
           <a href="/add_book">Add Book</a>
           <a href="/add_author">Add Author</a>
+          <a href="/?sort=title">Sort by Title</a>
+          <a href="/?sort=author">Sort by Author</a>
         </nav>
+        <form action="/" method="GET" style="margin-top: 15px; display: flex; gap: 10px;">
+          <input type="text" name="search" placeholder="Search books..." value="{{ search }}"
+                 style="flex: 1; padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1em;">
+          <button type="submit" style="padding: 10px 20px; background: #667eea; color: white; border: none; border-radius: 8px; cursor: pointer;">Search</button>
+        </form>
       </header>
 
       {% if books %}

@@ -14,7 +14,27 @@ app = flask.Flask(__name__)
 @app.route('/')
 def home():
     """Display all books with their authors."""
-    return flask.render_template('home.html', books=data_models.Book.query.all())
+    # Check if user wants to sort
+    sort_by = flask.request.args.get('sort', 'title')
+    # Check if user is searching
+    search = flask.request.args.get('search', '')
+
+    if search:
+        # Search in book title using LIKE
+        books = data_models.Book.query.filter(
+            data_models.Book.title.like(f'%{search}%')
+        ).all()
+    else:
+        # Sort the books
+        if sort_by == 'author':
+            books = data_models.Book.query.join(data_models.Author).order_by(
+                data_models.Author.name).all()
+        else:
+            books = data_models.Book.query.order_by(
+                data_models.Book.title).all()
+
+    return flask.render_template('home.html', books=books, sort_by=sort_by,
+                                 search=search)
 
 
 @app.route('/add_author', methods=['GET', 'POST'])
