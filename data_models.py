@@ -1,8 +1,11 @@
+"""Database models for library management."""
+
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
 class Author(db.Model):
+    """Author entity with books relationship."""
     __tablename__ = 'authors'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
@@ -11,6 +14,7 @@ class Author(db.Model):
     books = db.relationship('Book', back_populates='author')
 
 class Book(db.Model):
+    """Book entity linked to author."""
     __tablename__ = 'books'
     id = db.Column(db.Integer, primary_key=True)
     author_id = db.Column(db.Integer, db.ForeignKey('authors.id'))

@@ -1,3 +1,5 @@
+"""Flask application for library management system."""
+
 import flask
 
 from flask_sqlalchemy import SQLAlchemy
@@ -10,11 +12,13 @@ app = flask.Flask(__name__)
 
 @app.route('/')
 def home():
+    """Display all books with their authors."""
     return flask.render_template('home.html', books=data_models.Book.query.all())
 
 
 @app.route('/add_author', methods=['GET', 'POST'])
 def add_author():
+    """Add new author to database."""
     if flask.request.method == 'POST':
         new_author_object = data_models.Author(name=flask.request.form['name'],
                             birth_date=flask.request.form['birthdate'],
@@ -29,6 +33,7 @@ def add_author():
 
 @app.route('/add_book', methods=['GET', 'POST'])
 def add_book():
+    """Add new book to database."""
     if flask.request.method == 'POST':
         new_book_object = data_models.Book(isbn=flask.request.form['isbn'],
                                            title=flask.request.form['title'],
@@ -40,6 +45,11 @@ def add_book():
     else:
         return flask.render_template('add_book.html', authors=data_models.Author.query.all())
 
+@app.route('/delete_book/<int:book_id>')
+def delete_book(book_id):
+    """Delete book by ID."""
+    book_to_delete = data_models.Book.query.get_or_404(book_id)
+    data_models.db.session.delete(book_to_delete)
 
 
 basedir = os.path.abspath(os.path.dirname(__file__))
