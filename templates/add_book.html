@@ -108,9 +108,46 @@
         margin-bottom: 20px;
         color: #856404;
       }
+      .alert {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 15px 25px;
+        border-radius: 8px;
+        font-weight: 500;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        animation: slideIn 0.3s ease-out;
+        z-index: 1000;
+        max-width: 400px;
+      }
+      .alert-success {
+        background: #10b981;
+        color: white;
+      }
+      .alert-danger {
+        background: #ef4444;
+        color: white;
+      }
+      @keyframes slideIn {
+        from {
+          transform: translateX(400px);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
     </style>
   </head>
   <body>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
     <div class="container">
       <header>
         <h1>📖 Add Book</h1>
