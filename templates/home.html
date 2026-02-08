@@ -164,6 +164,10 @@
       <div class="books-grid">
         {% for book in books %}
         <div class="book-card">
+          <img src="https://covers.openlibrary.org/b/isbn/{{ book.isbn }}-M.jpg"
+               alt="{{ book.title }}"
+               style="width: 128px; height: 192px; object-fit: cover; border-radius: 6px; margin-bottom: 10px;"
+               onerror="this.style.display='none'">
           <h3 class="book-title">{{ book.title }}</h3>
           <h4 class="book-author">by {{ book.author.name if book.author else 'Unknown' }}</h4>
           <form action="/book/{{ book.id }}/delete" method="POST" style="display: inline;">
