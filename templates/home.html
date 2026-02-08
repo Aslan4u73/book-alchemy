@@ -166,9 +166,9 @@
         <div class="book-card">
           <h3 class="book-title">{{ book.title }}</h3>
           <h4 class="book-author">by {{ book.author.name if book.author else 'Unknown' }}</h4>
-          <a href="/delete_book/{{ book.id }}">
-            <button class="delete-btn">Delete</button>
-          </a>
+          <form action="/book/{{ book.id }}/delete" method="POST" style="display: inline;">
+            <button type="submit" class="delete-btn">Delete</button>
+          </form>
         </div>
         {% endfor %}
       </div>
